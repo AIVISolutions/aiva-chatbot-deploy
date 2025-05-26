@@ -51,6 +51,8 @@ Estoy aquí para ayudarte con cualquier pregunta sobre nuestras herramientas y c
 Solo escribe tu pregunta o selecciona un tema, y estaré encantada de ayudarte 🤖✨"""}
         ]
 
+chat_history = []
+
 def responder(user_input):
     messages.append({"role": "user", "content": user_input})
     try:
@@ -60,14 +62,18 @@ def responder(user_input):
         )
         reply = response.choices[0].message.content
         messages.append({"role": "assistant", "content": reply})
-        return reply
+        chat_history.append((user_input, reply))
+        return chat_history
     except Exception as e:
-        return f"Error: {e}"
+        return chat_history + [(user_input, f"Error: {e}")]
+
 
 iface = gr.Interface(
     fn=responder,
-    inputs="text",
-    outputs="text",
+    inputs=gr.Textbox(lines=2, placeholder="Escribe tu mensaje aquí...", label="Mensaje"),
+    outputs=gr.Textbox(label="Respuesta"),
     title="AIVA – Asistente AIVI",
-    description="Haz preguntas sobre los cursos, certificados, acceso, módulos, y más."
+    description="Haz preguntas sobre los cursos, certificados, acceso, módulos, y más.",
+    allow_flagging="never",  # Esto oculta el botón Flag
+    theme="compact"
 )
