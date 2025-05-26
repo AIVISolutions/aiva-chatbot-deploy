@@ -50,7 +50,6 @@ Estoy aquí para ayudarte con cualquier pregunta sobre nuestras herramientas y c
 
 Solo escribe tu pregunta o selecciona un tema, y estaré encantada de ayudarte 🤖✨"""}
         ]
-]
 
 def responder(user_input):
     messages.append({"role": "user", "content": user_input})
